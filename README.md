@@ -13,5 +13,5 @@ La clase vector sirve para probar templates. Métodos utilizables:
 Se puede probar que la clase Vector funciona corriendo estos tests (tests_vector.cpp fue generado por Gemini):
 ```
 cd src
-g++ -std=c++11 tests.cpp -o tests
+g++ -std=c++11 tests_vector.cpp -o tests
 ```
