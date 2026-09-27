@@ -3,6 +3,8 @@
 #include <cassert>
 
 template <typename T>
+
+//utilizar doxygen en las funciones
 class Vector {
     private:
         T* elem;

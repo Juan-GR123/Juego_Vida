@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <string>
-#include "classes/vector.h" // Asegúrate de que tu archivo de cabecera se llame así
+#include "vector.h" // Asegúrate de que tu archivo de cabecera se llame así
 
 // Función de ayuda para imprimir mensajes de éxito
 void test_passed(const std::string& test_name) {
