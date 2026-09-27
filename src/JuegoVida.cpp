@@ -68,6 +68,7 @@ bool JuegoVida::CargarPatron(const string& nombre_fichero) {
 
 // Ajustar dimensiones si las celdas llegan a los bordes
 void JuegoVida::AjustarDimensiones() {
+    //si encuentra en una columno al menos una X entonces pasa a decir que esa fila esta viva
     bool fila_arriba_viva = false;
     for (int j = 0; j < columnas; ++j) {
         if (tablero[0][j] == 'X') fila_arriba_viva = true;
@@ -78,6 +79,7 @@ void JuegoVida::AjustarDimensiones() {
         if (tablero[filas - 1][j] == 'X') fila_abajo_viva = true;
     }
 
+    //si pasa por todas las filas si en al menos una tiene X  pasa a ser una col viva
     bool col_izq_viva = false;
     for (int i = 0; i < filas; ++i) {
         if (tablero[i][0] == 'X') col_izq_viva = true;

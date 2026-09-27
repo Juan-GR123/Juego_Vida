@@ -1,101 +1,132 @@
 #ifndef GL_Vector_h
 #define GL_Vector_h
+
 #include <cassert>
 
-template <typename T>
+// Como es una clase template, se incluye el archivo .cpp para que el compilador 
+// pueda generar las instancias correctamente.
+#include "vector.cpp"
 
-//utilizar doxygen en las funciones
+/**
+ * @brief Clase Vector genérica dinámica basada en plantillas.
+ * @tparam T Tipo de dato almacenado en el vector.
+ */
+
+//template <typename T>: Declara la variable de tipo (T) para que el compilador la reconozca.
+//Vector<T>::: Indica el ámbito (namespace o clase) al que pertenece la función, especificando que se trata de la versión de la clase Vector parametrizada con ese tipo T.
+
+template <typename T>
 class Vector {
     private:
-        T* elem;
-        int tamanio;
+        T* elem;           /**< Puntero a los elementos del vector. */
+        int tamanio;       /**< Tamaño actual del vector. */
 
         using iterator = T*;
         using const_iterator = const T*;
 
-        void Redim(int nuevo_tam) {
-            assert(nuevo_tam >= 0);
-            
-            if (nuevo_tam == 0) {
-                delete[] elem;
-                elem = nullptr;
-                tamanio = 0;
-                return;
-            }
-
-            T* aux_elem = new T[nuevo_tam];
-            
-            if (elem != nullptr) {
-                int elementos_a_copiar = (nuevo_tam < tamanio) ? nuevo_tam : tamanio;
-                for (int i = 0; i < elementos_a_copiar; ++i) {
-                    aux_elem[i] = elem[i];
-                }
-                delete[] elem;
-            }
-            
-            elem = aux_elem;
-            tamanio = nuevo_tam;
-        }
+        /**
+         * @brief Redimensiona el vector al nuevo tamaño especificado.
+         * @param nuevo_tam Nuevo tamaño que tendrá el vector.
+         */
+        void Redim(int nuevo_tam);
 
     public:
-        Vector() : elem(nullptr), tamanio(0) {}
+        /**
+         * @brief Constructor por defecto. Crea un vector vacío.
+         */
+        Vector();
         
-        Vector(int num_els) : elem(nullptr), tamanio(0) {
-            assert(num_els >= 0);
-            Redim(num_els);
-        }
+        /**
+         * @brief Constructor con tamaño inicial.
+         * @param num_els Número de elementos iniciales.
+         */
+        Vector(int num_els);
         
-        ~Vector() {
-            delete[] elem;
-            elem = nullptr;
-            tamanio = 0;
-        }
+        /**
+         * @brief Destructor. Libera la memoria dinámica asignada.
+         */
+        ~Vector();
         
-        Vector(const Vector& copia) : elem(nullptr), tamanio(0) {
-            Redim(copia.getTamanio());
-            for (int i = 0; i < tamanio; ++i) {
-                elem[i] = copia[i];
-            }
-        }
+        /**
+         * @brief Constructor de copia.
+         * @param copia Vector que se desea copiar.
+         */
+        Vector(const Vector& copia);
         
-        Vector& operator=(const Vector& copia) {
-            if (this != &copia) {
-                Redim(copia.getTamanio());
-                for (int i = 0; i < tamanio; ++i) {
-                    elem[i] = copia[i];
-                }
-            }
-            return *this;
-        }
+        /**
+         * @brief Operador de asignación.
+         * @param copia Vector que se desea asignar.
+         * @return Referencia al vector actual modificado.
+         */
+        Vector& operator=(const Vector& copia);
 
-        T& operator[](int indice) { return elem[indice]; }
-        const T& operator[](int indice) const { return elem[indice]; }
+        /**
+         * @brief Operador de acceso por índice (lectura y escritura).
+         * @param indice Posición del elemento.
+         * @return Referencia al elemento en esa posición.
+         */
+        T& operator[](int indice);
         
-        T& operator[](T* indice) { return *indice; }
-        const T& operator[](T* indice) const { return *indice; }
+        /**
+         * @brief Operador de acceso por índice constante (solo lectura).
+         * @param indice Posición del elemento.
+         * @return Referencia constante al elemento en esa posición.
+         */
+        const T& operator[](int indice) const;
+        
+        /**
+         * @brief Operador de acceso mediante puntero (lectura y escritura).
+         * @param indice Puntero al elemento.
+         * @return Referencia al elemento apuntado.
+         */
+        T& operator[](T* indice);
+        
+        /**
+         * @brief Operador de acceso mediante puntero constante (solo lectura).
+         * @param indice Puntero al elemento.
+         * @return Referencia constante al elemento apuntado.
+         */
+        const T& operator[](T* indice) const;
 
-        int getTamanio() const { return tamanio; }
+        /**
+         * @brief Obtiene el tamaño actual del vector.
+         * @return Número de elementos en el vector.
+         */
+        int getTamanio() const;
         
-        iterator begin() { return elem; }
-        iterator end() { return (elem + tamanio); }
-        const_iterator const_begin() const { return elem; }
-        const_iterator const_end() const { return (elem + tamanio); }
+        /**
+         * @brief Devuelve un iterador al principio del vector.
+         */
+        iterator begin();
         
-        Vector& operator+=(const T& nuevo_el) {
-            Redim(tamanio + 1);
-            elem[tamanio - 1] = nuevo_el;
-            return *this;
-        }
+        /**
+         * @brief Devuelve un iterador al final del vector.
+         */
+        iterator end();
         
-        Vector& operator+=(const Vector& otro) {
-            int tam_old = tamanio;
-            Redim(tamanio + otro.getTamanio());
-            
-            for (int i = 0; i < otro.getTamanio(); ++i) {
-                elem[tam_old + i] = otro[i];
-            }
-            return *this;
-        }
+        /**
+         * @brief Devuelve un iterador constante al principio del vector.
+         */
+        const_iterator const_begin() const;
+        
+        /**
+         * @brief Devuelve un iterador constante al final del vector.
+         */
+        const_iterator const_end() const;
+        
+        /**
+         * @brief Operador para añadir un nuevo elemento al final.
+         * @param nuevo_el Elemento a añadir.
+         * @return Referencia al vector modificado.
+         */
+        Vector& operator+=(const T& nuevo_el);
+        
+        /**
+         * @brief Operador para concatenar otro vector al final.
+         * @param otro Vector que se desea añadir.
+         * @return Referencia al vector modificado.
+         */
+        Vector& operator+=(const Vector& otro);
 };
 
 #endif
