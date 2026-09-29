@@ -3,6 +3,13 @@
 
 #include <cassert>
 
+<<<<<<< HEAD
+=======
+// Como es una clase template, se incluye el archivo .cpp para que el compilador 
+// pueda generar las instancias correctamente.
+#include "vector.cpp"
+
+>>>>>>> 010b994d05657cdb35cb6915760220b2e734a8bc
 /**
  * @brief Clase Vector genérica dinámica basada en plantillas.
  * @tparam T Tipo de dato almacenado en el vector.
@@ -125,8 +132,11 @@ class Vector {
         Vector& operator+=(const Vector& otro);
 };
 
+<<<<<<< HEAD
 // Como es una clase template, se incluye el archivo .cpp para que el compilador 
 // pueda generar las instancias correctamente.
 #include "vector.tpp"
 
+=======
+>>>>>>> 010b994d05657cdb35cb6915760220b2e734a8bc
 #endif
