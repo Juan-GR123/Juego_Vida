@@ -70,6 +70,6 @@ int main(int argc, char* argv[]) {
 
 /*
 para ejecutar
-g++ main.cpp JuegoVida.cpp -o juego_vida
+g++ main.cpp JuegoVida.cpp vector.cpp -o juego_vida
 ./juego_vida exploder.txt 100
 */

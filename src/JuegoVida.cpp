@@ -90,6 +90,7 @@ void JuegoVida::AjustarDimensiones() {
         if (tablero[i][columnas - 1] == 'X') col_der_viva = true;
     }
 
+    //si aumenta el numero de celdas en funcion de si las de alrededor estan vivas o muertas se ponen como vivas o muertas
     if (fila_arriba_viva || fila_abajo_viva || col_izq_viva || col_der_viva) {
         int nuevo_filas = filas + (fila_arriba_viva ? 2 : 0) + (fila_abajo_viva ? 2 : 0);
         int nuevo_cols = columnas + (col_izq_viva ? 2 : 0) + (col_der_viva ? 2 : 0);
