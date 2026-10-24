@@ -2,7 +2,7 @@
 #define GL_Vector_h
 
 #include <cassert>
-
+#include "vector.tpp"
 
 
 
