@@ -1,11 +1,17 @@
-#include "JuegoVida.h"
+#ifndef JUEGO_VIDA_TPP
+#define JUEGO_VIDA_TPP
+
 #include <fstream>
+#include "JuegoVida.h"
+
+template <typename T>
 
 // Constructor por defecto
-JuegoVida::JuegoVida() : filas(0), columnas(0) {}
+JuegoVida<T>::JuegoVida() : filas(0), columnas(0) {}
 
 // Función auxiliar para contar vecinos vivos
-int JuegoVida::ContarVecinosVivos(int f, int c) const {
+template <typename T>
+int JuegoVida<T>::ContarVecinosVivos(int f, int c) const {
     int vecinos = 0;
     for (int df = -1; df <= 1; ++df) { //comprueban de -1 a +1 es decir las celdas de alrededor
         for (int dc = -1; dc <= 1; ++dc) {
@@ -25,7 +31,8 @@ int JuegoVida::ContarVecinosVivos(int f, int c) const {
 }
 
 // Cargar el patrón inicial desde el fichero
-bool JuegoVida::CargarPatron(const string& nombre_fichero) {
+template <typename T>
+bool JuegoVida<T>::CargarPatron(const string& nombre_fichero) {
     bool exito = true;
     ifstream fichero(nombre_fichero);
     
@@ -36,8 +43,7 @@ bool JuegoVida::CargarPatron(const string& nombre_fichero) {
             exito = false;
         } else {
             fichero.ignore();
-
-            tablero = Vector<Vector<char>>(filas);
+            tablero.assign(filas, vector<T>(columnas)); 
             bool error_lectura = false;
 
             for (int i = 0; i < filas && !error_lectura; ++i) {
@@ -45,7 +51,6 @@ bool JuegoVida::CargarPatron(const string& nombre_fichero) {
                 if (!getline(fichero, linea)) {
                     error_lectura = true;
                 } else {
-                    tablero[i] = Vector<char>(columnas);
                     for (int j = 0; j < columnas; ++j) {
                         if (j < linea.size()) {
                             tablero[i][j] = linea[j];
@@ -55,19 +60,16 @@ bool JuegoVida::CargarPatron(const string& nombre_fichero) {
                     }
                 }
             }
-
-            if (error_lectura) {
-                exito = false;
-            }
+            if (error_lectura) exito = false;
         }
         fichero.close();
     }
-
     return exito;
 }
 
 // Ajustar dimensiones si las celdas llegan a los bordes
-void JuegoVida::AjustarDimensiones() {
+template <typename T>
+void JuegoVida<T>::AjustarDimensiones() {
     //si encuentra en una columno al menos una X entonces pasa a decir que esa fila esta viva
     bool fila_arriba_viva = false;
     for (int j = 0; j < columnas; ++j) {
@@ -98,13 +100,7 @@ void JuegoVida::AjustarDimensiones() {
         int offset_f = fila_arriba_viva ? 1 : 0;
         int offset_c = col_izq_viva ? 1 : 0;
 
-        Vector<Vector<char>> nuevo_tablero(nuevo_filas);
-        for (int i = 0; i < nuevo_filas; ++i) {
-            nuevo_tablero[i] = Vector<char>(nuevo_cols);
-            for (int j = 0; j < nuevo_cols; ++j) {
-                nuevo_tablero[i][j] = '.';
-            }
-        }
+        vector<vector<T>> nuevo_tablero(nuevo_filas, vector<T>(nuevo_cols, '.'));
 
         for (int i = 0; i < filas; ++i) {
             for (int j = 0; j < columnas; ++j) {
@@ -119,10 +115,11 @@ void JuegoVida::AjustarDimensiones() {
 }
 
 // Simular n iteraciones
-void JuegoVida::Evolucionar(int n) {
+template <typename T>
+void JuegoVida<T>::Evolucionar(int n) {
     for (int paso = 0; paso < n; ++paso) {
         AjustarDimensiones();
-        Vector<Vector<char>> siguiente = tablero;
+        vector<vector<T>> siguiente = tablero;
 
         for (int i = 0; i < filas; ++i) {
             for (int j = 0; j < columnas; ++j) {
@@ -143,7 +140,8 @@ void JuegoVida::Evolucionar(int n) {
 }
 
 // Obtener recuento de celdas vivas
-int JuegoVida::ObtenerCeldasVivas() const {
+template <typename T>
+int JuegoVida<T>::ObtenerCeldasVivas() const {
     int celdas = 0;
     for (int i = 0; i < filas; ++i) {
         for (int j = 0; j < columnas; ++j) {
@@ -156,7 +154,8 @@ int JuegoVida::ObtenerCeldasVivas() const {
 }
 
 // Calcular rectángulo mínimo
-void JuegoVida::ObtenerDimensionesMinimas(int& min_f, int& max_f, int& min_c, int& max_c, int& dim_f, int& dim_c) const {
+template <typename T>
+void JuegoVida<T>::ObtenerDimensionesMinimas(int& min_f, int& max_f, int& min_c, int& max_c, int& dim_f, int& dim_c) const {
     min_f = filas; max_f = -1;
     min_c = columnas; max_c = -1;
 
@@ -181,7 +180,8 @@ void JuegoVida::ObtenerDimensionesMinimas(int& min_f, int& max_f, int& min_c, in
 }
 
 // Guardar resultado en fichero
-void JuegoVida::GuardarResultado(const string& fichero_salida) const {
+template <typename T>
+void JuegoVida<T>::GuardarResultado(const string& fichero_salida) const {
     if (fichero_salida.empty()) return;
 
     ofstream salida(fichero_salida);
@@ -201,3 +201,5 @@ void JuegoVida::GuardarResultado(const string& fichero_salida) const {
         salida.close();
     }
 }
+
+#endif

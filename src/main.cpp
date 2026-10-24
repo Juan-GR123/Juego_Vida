@@ -19,12 +19,10 @@ argv[2] = 100
 */
 
 int main(int argc, char* argv[]) {
-
     // Empezamos a medir el tiempo al iniciar el programa
     //auto: deduccion de tipos
     //alternativamente se puede poner: chrono::time_point<chrono::high_resolution_clock> tiempo_inicio
     auto tiempo_inicio = chrono::high_resolution_clock::now();
-
     int codigo_salida = 0;
 
     //Comprobar que se pasan los argumentos correctos por línea de comandos
@@ -35,7 +33,8 @@ int main(int argc, char* argv[]) {
         string nombre_fichero = argv[1];
         int num_iteraciones = stoi(argv[2]);
 
-        JuegoVida juego;
+        // Instanciación del TDA plantilla explícitamente con char
+        JuegoVida<char> juego;
 
         if (!juego.CargarPatron(nombre_fichero)) {
             cerr << "Error: No se pudo abrir o leer correctamente el fichero " << nombre_fichero << "\n";
@@ -54,14 +53,14 @@ int main(int argc, char* argv[]) {
             cout << num_iteraciones << " iteraciones\n";
             cout << celdas_vivas << " celdas vivas\n";
             cout << "Dimensiones: " << dim_f << " x " << dim_c << "\n";
-            cout << tiempo_transcurrido.count() << " segundos\n";
+            cout << tiempo_transcurrido.count() << " segundos\n"; //[cite: 3]
 
             // Pedir el fichero de salida
             cout << "Fichero de salida: ";
             string fichero_salida;
             cin >> fichero_salida;
 
-            juego.GuardarResultado(fichero_salida);
+            juego.GuardarResultado(fichero_salida); //[cite: 3]
         }
     }
 
@@ -70,6 +69,6 @@ int main(int argc, char* argv[]) {
 
 /*
 para ejecutar
-g++ main.cpp JuegoVida.cpp vector.cpp -o juego_vida
+g++ main.cpp -o juego_vida
 ./juego_vida exploder.txt 100
 */
