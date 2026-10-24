@@ -33,6 +33,6 @@
 
 # ¿Cómo probar que el main funciona?:
 ```
-g++ -Iinclude src/main.cpp -o main
+g++ -std=c++11 -Iinclude src/main.cpp -o main
 ./main
 ```
