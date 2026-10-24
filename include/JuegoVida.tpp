@@ -70,7 +70,7 @@ bool JuegoVida<T>::CargarPatron(const string& nombre_fichero) {
 // Ajustar dimensiones si las celdas llegan a los bordes
 template <typename T>
 void JuegoVida<T>::AjustarDimensiones() {
-    //si encuentra en una columno al menos una X entonces pasa a decir que esa fila esta viva
+    //si encuentra en una columna al menos una X entonces pasa a decir que esa fila esta viva
     bool fila_arriba_viva = false;
     for (int j = 0; j < columnas; ++j) {
         if (tablero[0][j] == 'X') fila_arriba_viva = true;

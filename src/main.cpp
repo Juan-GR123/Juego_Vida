@@ -69,6 +69,6 @@ int main(int argc, char* argv[]) {
 
 /*
 para ejecutar
-g++ main.cpp -o juego_vida
-./juego_vida exploder.txt 100
+g++ -std=c++11 -Iinclude src/main.cpp -o main
+./main exploder.txt 100
 */
